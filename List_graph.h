@@ -15,8 +15,8 @@ private:
     class Edge{
     public:
         unsigned vertex;
-        double weight;
-        Edge(unsigned vertex, double weight){
+        double* weight;
+        Edge(unsigned vertex, double* weight){
             this->vertex = vertex;
             this->weight = weight;
         }
@@ -31,8 +31,10 @@ public:
 
     List_graph(int& vertices, bool oriented, bool weighted);
 
-    void add_edge(unsigned int v, unsigned int w, double weight);
+    void add_edge(unsigned int v, unsigned int w, double* weight);
     void output_graph();
+
+    void dfs();
 
 
 

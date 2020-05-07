@@ -10,35 +10,26 @@ Matrix_graph::Matrix_graph(int &vertices, bool oriented, bool weighted) {
     this->oriented = oriented;
     this->weighted = weighted;
 
-    adj = new double*[vertices];
+    adj = new double**[vertices];
     for(int i = 0; i < vertices; i++){
-        adj[i] = new double [vertices];
+        adj[i] = new double* [vertices];
     }
     for(int i = 0; i < vertices; i++){
         for(int j = 0; j < vertices; j++){
-            adj[i][j] = 0;
+            adj[i][j] = nullptr;
         }
     }
 
 }
 
-void Matrix_graph::add_edge(unsigned int v, unsigned int w, double weight) {
+void Matrix_graph::add_edge(unsigned int v, unsigned int w, double* weight) {
 
     if (adj[v][w] == 0) {
         if (oriented) {
-            if (weighted) {
                 adj[v][w] = weight;
-            } else {
-                adj[v][w] = 1;
-            }
         } else {
-            if (weighted) {
                 adj[v][w] = weight;
                 adj[w][v] = weight;
-            } else {
-                adj[v][w] = 1;
-                adj[w][v] = 1;
-            }
         }
     }
     else{

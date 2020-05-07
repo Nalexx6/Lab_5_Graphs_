@@ -13,7 +13,7 @@ List_graph::List_graph(int &vertices, bool oriented, bool weighted) {
 
 }
 
-void List_graph::add_edge(unsigned int v, unsigned int w, double weight) {
+void List_graph::add_edge(unsigned int v, unsigned int w, double* weight) {
 
     for(int i = 0; i < adj[v].size(); i++){
         if(adj[v][i].vertex == w){
@@ -21,9 +21,6 @@ void List_graph::add_edge(unsigned int v, unsigned int w, double weight) {
             return;
         }
     }
-//    if(!oriented){
-//
-//    }
     if(oriented) {
         adj[v].emplace_back(Edge(w, weight));
     } else{

@@ -73,12 +73,12 @@ preinstall:
 CMakeFiles/Lab_5_Graphs_.dir/all:
 	$(MAKE) -f CMakeFiles\Lab_5_Graphs_.dir\build.make CMakeFiles/Lab_5_Graphs_.dir/depend
 	$(MAKE) -f CMakeFiles\Lab_5_Graphs_.dir\build.make CMakeFiles/Lab_5_Graphs_.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="D:\C++\1\1 course 2nd term(2020)\Lab.5(Graphs)\cmake-build-debug\CMakeFiles" --progress-num=1,2,3,4,5,6 "Built target Lab_5_Graphs_"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="D:\C++\1\1 course 2nd term(2020)\Lab.5(Graphs)\cmake-build-debug\CMakeFiles" --progress-num=1,2,3,4,5,6,7 "Built target Lab_5_Graphs_"
 .PHONY : CMakeFiles/Lab_5_Graphs_.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/Lab_5_Graphs_.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "D:\C++\1\1 course 2nd term(2020)\Lab.5(Graphs)\cmake-build-debug\CMakeFiles" 6
+	$(CMAKE_COMMAND) -E cmake_progress_start "D:\C++\1\1 course 2nd term(2020)\Lab.5(Graphs)\cmake-build-debug\CMakeFiles" 7
 	$(MAKE) -f CMakeFiles\Makefile2 CMakeFiles/Lab_5_Graphs_.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "D:\C++\1\1 course 2nd term(2020)\Lab.5(Graphs)\cmake-build-debug\CMakeFiles" 0
 .PHONY : CMakeFiles/Lab_5_Graphs_.dir/rule

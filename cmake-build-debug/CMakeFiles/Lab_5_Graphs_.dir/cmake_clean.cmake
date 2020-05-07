@@ -3,6 +3,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/Lab_5_Graphs_.dir/List_graph.cpp.obj"
   "CMakeFiles/Lab_5_Graphs_.dir/Matrix_graph.cpp.obj"
   "CMakeFiles/Lab_5_Graphs_.dir/Mode.cpp.obj"
+  "CMakeFiles/Lab_5_Graphs_.dir/Random.cpp.obj"
   "CMakeFiles/Lab_5_Graphs_.dir/main.cpp.obj"
   "Lab_5_Graphs_.exe"
   "Lab_5_Graphs_.exe.manifest"

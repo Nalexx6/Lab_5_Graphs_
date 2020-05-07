@@ -7,8 +7,7 @@
 
 #include "Matrix_graph.h"
 #include "List_graph.h"
-
-#include <random>
+#include "Random.h"
 
 class Functions {
 

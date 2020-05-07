@@ -6,41 +6,15 @@
 
 #IncludeRegexTransform: 
 
-D:/C++/1/1 course 2nd term(2020)/Lab.5(Graphs)/Functions.cpp
-Functions.h
-D:/C++/1/1 course 2nd term(2020)/Lab.5(Graphs)/Functions.h
+D:/C++/1/1 course 2nd term(2020)/Lab.5(Graphs)/Random.cpp
+Random.h
+D:/C++/1/1 course 2nd term(2020)/Lab.5(Graphs)/Random.h
 
-D:/C++/1/1 course 2nd term(2020)/Lab.5(Graphs)/Functions.h
-Matrix_graph.h
-D:/C++/1/1 course 2nd term(2020)/Lab.5(Graphs)/Matrix_graph.h
-List_graph.h
-D:/C++/1/1 course 2nd term(2020)/Lab.5(Graphs)/List_graph.h
+D:/C++/1/1 course 2nd term(2020)/Lab.5(Graphs)/Random.h
+iostream
+-
+ctime
+-
 random
 -
-
-D:/C++/1/1 course 2nd term(2020)/Lab.5(Graphs)/List_graph.cpp
-List_graph.h
-D:/C++/1/1 course 2nd term(2020)/Lab.5(Graphs)/List_graph.h
-
-D:/C++/1/1 course 2nd term(2020)/Lab.5(Graphs)/List_graph.h
-iostream
--
-vector
--
-
-D:/C++/1/1 course 2nd term(2020)/Lab.5(Graphs)/Matrix_graph.h
-iostream
--
-
-D:/C++/1/1 course 2nd term(2020)/Lab.5(Graphs)/Mode.cpp
-Mode.h
-D:/C++/1/1 course 2nd term(2020)/Lab.5(Graphs)/Mode.h
-
-D:/C++/1/1 course 2nd term(2020)/Lab.5(Graphs)/Mode.h
-Functions.h
-D:/C++/1/1 course 2nd term(2020)/Lab.5(Graphs)/Functions.h
-
-D:/C++/1/1 course 2nd term(2020)/Lab.5(Graphs)/main.cpp
-Mode.h
-D:/C++/1/1 course 2nd term(2020)/Lab.5(Graphs)/Mode.h
 

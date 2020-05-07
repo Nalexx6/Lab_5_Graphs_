@@ -230,6 +230,33 @@ Mode.cpp.s:
 	$(MAKE) -f CMakeFiles\Lab_5_Graphs_.dir\build.make CMakeFiles/Lab_5_Graphs_.dir/Mode.cpp.s
 .PHONY : Mode.cpp.s
 
+Random.obj: Random.cpp.obj
+
+.PHONY : Random.obj
+
+# target to build an object file
+Random.cpp.obj:
+	$(MAKE) -f CMakeFiles\Lab_5_Graphs_.dir\build.make CMakeFiles/Lab_5_Graphs_.dir/Random.cpp.obj
+.PHONY : Random.cpp.obj
+
+Random.i: Random.cpp.i
+
+.PHONY : Random.i
+
+# target to preprocess a source file
+Random.cpp.i:
+	$(MAKE) -f CMakeFiles\Lab_5_Graphs_.dir\build.make CMakeFiles/Lab_5_Graphs_.dir/Random.cpp.i
+.PHONY : Random.cpp.i
+
+Random.s: Random.cpp.s
+
+.PHONY : Random.s
+
+# target to generate assembly for a file
+Random.cpp.s:
+	$(MAKE) -f CMakeFiles\Lab_5_Graphs_.dir\build.make CMakeFiles/Lab_5_Graphs_.dir/Random.cpp.s
+.PHONY : Random.cpp.s
+
 main.obj: main.cpp.obj
 
 .PHONY : main.obj
@@ -278,6 +305,9 @@ help:
 	@echo ... Mode.obj
 	@echo ... Mode.i
 	@echo ... Mode.s
+	@echo ... Random.obj
+	@echo ... Random.i
+	@echo ... Random.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
