@@ -18,11 +18,13 @@ public:
 
     bool oriented;
     bool weighted;
-    double*** adj;
+    int*** adj;
 
     Matrix_graph(int& vertices, bool oriented, bool weighted);
 
-    void add_edge(unsigned int v, unsigned int w, double* weight);
+    bool edge_exists(int v, int w);
+
+    void add_edge(unsigned int v, unsigned int w, int* weight);
     void output_graph();
 
 };

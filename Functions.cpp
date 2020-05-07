@@ -13,12 +13,12 @@ void Functions::matrix_random_graph(int vertices, int edges) {
 
         unsigned v = Random::rand(0, vertices - 1);
         unsigned w = Random::rand(0, vertices - 1);
-        double* weight = Random::rand_double(vertices - 1 ,  2 * vertices - 1);
-        if(v == w){
+        int* weight = new int(Random::rand(vertices - 1 ,  2 * vertices - 1));
+        if(graph->edge_exists(v, w)){
             i--;
         } else {
             graph->add_edge(v, w, weight);
-            std::cout << v << "\t" << w << "\t" << weight << std::endl;
+            std::cout << v << "\t" << w << "\t" << *weight << std::endl;
         }
     }
     graph->output_graph();
@@ -30,11 +30,10 @@ void Functions::list_random_graph(int vertices, int edges) {
     List_graph* graph = new List_graph(vertices, oriented, weighted);
 
     for(int i = 0; i < edges; i++) {
-
         unsigned v = Random::rand(0, vertices - 1);
         unsigned w = Random::rand(0, vertices - 1);
-        double* weight = Random::rand_double(vertices - 1 ,  2 * vertices - 1);
-        if(v == w){
+        int weight = Random::rand(0 ,  2 * vertices - 1);
+        if(v == w || graph->edge_exists(v , w)){
             i--;
         } else {
             graph->add_edge(v, w, weight);

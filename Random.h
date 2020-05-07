@@ -14,7 +14,6 @@ class Random {
 public:
 
     static int rand(int lo, int hi);
-    static double * rand_double(int lo, int hi);
 
 };
 

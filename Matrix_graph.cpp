@@ -10,9 +10,9 @@ Matrix_graph::Matrix_graph(int &vertices, bool oriented, bool weighted) {
     this->oriented = oriented;
     this->weighted = weighted;
 
-    adj = new double**[vertices];
+    adj = new int**[vertices];
     for(int i = 0; i < vertices; i++){
-        adj[i] = new double* [vertices];
+        adj[i] = new int* [vertices];
     }
     for(int i = 0; i < vertices; i++){
         for(int j = 0; j < vertices; j++){
@@ -22,18 +22,22 @@ Matrix_graph::Matrix_graph(int &vertices, bool oriented, bool weighted) {
 
 }
 
-void Matrix_graph::add_edge(unsigned int v, unsigned int w, double* weight) {
+bool Matrix_graph::edge_exists(int v, int w) {
 
-    if (adj[v][w] == 0) {
-        if (oriented) {
-                adj[v][w] = weight;
-        } else {
-                adj[v][w] = weight;
-                adj[w][v] = weight;
-        }
+    if(adj[v][w]) {
+//        std::cout << "Edge " << v << " -> " << w << " already exists\n";
+        return true;
     }
-    else{
-        std::cout<<"Edge "<<v<<" -> "<<w<<" already exists\n";
+    return false;
+}
+
+void Matrix_graph::add_edge(unsigned int v, unsigned int w, int* weight) {
+
+    if (oriented) {
+            adj[v][w] = weight;
+    } else {
+            adj[v][w] = weight;
+            adj[w][v] = weight;
     }
 
 }
@@ -42,14 +46,17 @@ void Matrix_graph::output_graph() {
 
     for(int i = 0; i < vertices; i++){
         for(int j = 0; j < vertices; j++){
-            std::cout<<adj[i][j]<<"\t";
+            if(adj[i][j] != nullptr)
+                std::cout<<*adj[i][j]<<"\t";
+            else
+                std::cout<<"0\t";
         }
         std::cout<<"\n";
     }
     for(int i = 0; i < vertices; i++){
         std::cout<<"Vertex "<<i<<" is adjacent with vertices:\t";
         for (int j = 0; j < vertices; ++j) {
-            if(adj[i][j] != 0)
+            if(adj[i][j] != nullptr)
                 std::cout<<j<<"\t";
         }
         std::cout<<"\n";

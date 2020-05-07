@@ -14,9 +14,3 @@ int Random::rand(int lo, int hi) {
 
     return range(mt);
 }
-
-double * Random::rand_double(int lo, int hi) {
-
-    double d = (double)rand(0, RAND_MAX) / RAND_MAX;
-    return lo + d *(hi - lo);
-}

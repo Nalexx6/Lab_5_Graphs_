@@ -13,7 +13,18 @@ List_graph::List_graph(int &vertices, bool oriented, bool weighted) {
 
 }
 
-void List_graph::add_edge(unsigned int v, unsigned int w, double* weight) {
+bool List_graph::edge_exists(int v, int w) {
+
+    for(int i = 0; i < adj[v].size(); i++){
+        if(adj[v][i].vertex == w){
+//            std::cout<<"Edge "<<v<<" -> "<<w<<" already exists\n";
+            return true;
+        }
+    }
+    return false;
+}
+
+void List_graph::add_edge(unsigned int v, unsigned int w, int weight) {
 
     for(int i = 0; i < adj[v].size(); i++){
         if(adj[v][i].vertex == w){
