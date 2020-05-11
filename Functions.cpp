@@ -6,7 +6,7 @@
 
 void Functions::matrix_random_graph(int vertices, int edges) {
 
-    bool weighted = false, oriented = false;
+    bool weighted = false, oriented = false, connectivity = true;
     Matrix_graph* graph = new Matrix_graph(vertices, oriented, weighted);
 
     for(int i = 0; i < edges; i++) {
@@ -22,18 +22,19 @@ void Functions::matrix_random_graph(int vertices, int edges) {
         }
     }
     graph->output_graph();
+    graph->dfs(connectivity);
 }
 
 void Functions::list_random_graph(int vertices, int edges) {
 
-    bool weighted = true, oriented = false;
+    bool weighted = true, oriented = false, connectivity = true;
     List_graph* graph = new List_graph(vertices, oriented, weighted);
 
     for(int i = 0; i < edges; i++) {
         unsigned v = Random::rand(0, vertices - 1);
         unsigned w = Random::rand(0, vertices - 1);
         int weight = Random::rand(0 ,  2 * vertices - 1);
-        if(v == w || graph->edge_exists(v , w)){
+        if(graph->edge_exists(v , w)){
             i--;
         } else {
             graph->add_edge(v, w, weight);
@@ -41,6 +42,8 @@ void Functions::list_random_graph(int vertices, int edges) {
         }
     }
     graph->output_graph();
+    graph->dfs(true);
+    std::cout<<"Graph has "<<graph->acyclicity()<<" cycles\n";
 
 }
 
@@ -52,6 +55,6 @@ void Functions::matrix_interactive() {
 
 void Functions::list_interactive() {
 
-    list_random_graph(5, 7);
+    list_random_graph(5, 5);
 
 }

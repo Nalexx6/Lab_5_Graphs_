@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <vector>
+#include <queue>
 
 class List_graph {
 
@@ -28,6 +29,8 @@ public:
     bool oriented;
     bool weighted;
     std::vector <Edge>* adj;
+    int* visited;
+    std::queue <int> s_queue;
 
     List_graph(int& vertices, bool oriented, bool weighted);
 
@@ -36,7 +39,12 @@ public:
     void add_edge(unsigned int v, unsigned int w, int weight);
     void output_graph();
 
-    void dfs();
+    void dfs(bool connectivity);
+    void dfs_(int v);
+    int acyclicity();
+    void find_cycle(int v, int prev, int& cycles);
+    void bfs();
+    void bfs(int v);
 
 
 

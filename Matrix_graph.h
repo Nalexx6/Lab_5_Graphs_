@@ -19,6 +19,7 @@ public:
     bool oriented;
     bool weighted;
     int*** adj;
+    int* visited;
 
     Matrix_graph(int& vertices, bool oriented, bool weighted);
 
@@ -26,6 +27,9 @@ public:
 
     void add_edge(unsigned int v, unsigned int w, int* weight);
     void output_graph();
+
+    void dfs(bool connectivity);
+    void dfs_(int v);
 
 };
 
