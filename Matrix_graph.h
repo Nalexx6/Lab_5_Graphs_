@@ -6,6 +6,7 @@
 #define LAB_5_GRAPHS__MATRIX_GRAPH_H
 
 #include <iostream>
+#include <queue>
 
 class Matrix_graph {
 
@@ -30,6 +31,12 @@ public:
 
     void dfs(bool connectivity);
     void dfs_(int v);
+
+    void bfs();
+    void bfs(int v);
+
+    int acyclicity();
+    void find_cycle(int v, int prev, int prev_prev, int& cycles);
 
 };
 

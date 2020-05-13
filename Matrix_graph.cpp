@@ -52,9 +52,9 @@ void Matrix_graph::output_graph() {
     for(int i = 0; i < vertices; i++){
         for(int j = 0; j < vertices; j++){
             if(adj[i][j] != nullptr)
-                std::cout<<*adj[i][j]<<"\t";
+                std::cout<<*adj[i][j]<<" ";
             else
-                std::cout<<"0\t";
+                std::cout<<"N ";
         }
         std::cout<<"\n";
     }
@@ -71,16 +71,22 @@ void Matrix_graph::output_graph() {
 
 void Matrix_graph::dfs(bool connectivity) {
 
+    for(int i = 0; i < vertices; i++){
+        visited[i] = 0;
+    }
      int components = 0;
      for(int i = 0; i < vertices; i++){
          if(visited[i] == 0) {
              dfs_(i);
+             if(connectivity)
+                 components++;
          }
      }
 //     for(int i = 0; i < vertices; i++){
 //         std::cout<<visited[i]<<"\t";
 //     }
-    std::cout<<"Graph has "<<components<<" connectivity components\n";
+    if(connectivity)
+        std::cout<<"Graph has "<<components<<" connectivity components\n";
 
 }
 
@@ -93,6 +99,80 @@ void Matrix_graph::dfs_(int v) {
         if(adj[v][i] != nullptr){
             dfs_(i);
         }
+    }
+    visited[v]++;
+
+}
+
+void Matrix_graph::bfs() {
+
+    for(int i = 0; i < vertices; i++){
+        visited[i] = 0;
+    }
+    for(int i = 0; i < vertices; i++){
+        if(visited[i] == 0){
+            bfs(i);
+        }
+    }
+    for(int i = 0; i < vertices; i++){
+        std::cout<<visited[i]<<"\t";
+    }
+    std::cout<<"\n";
+
+}
+
+void Matrix_graph::bfs(int v) {
+
+    std::queue <int> queue;
+    visited[v]++;
+    queue.push(v);
+    while(!queue.empty()){
+
+        v = queue.front();
+        queue.pop();
+        for(int i = 0; i < vertices; i++){
+            if(visited[i] == 0 && adj[v][i] != nullptr) {
+                visited[i]++;
+                queue.push(i);
+            }
+        }
+
+    }
+}
+
+int Matrix_graph::acyclicity() {
+
+    int cycles = 0;
+    for(int i = 0; i < vertices; i++){
+        visited[i] = 0;
+    }
+    for(int i = 0; i < vertices; i++){
+        if(visited[i] == 0){
+            find_cycle(i, -1, -1, cycles);
+        }
+    }
+    return cycles;
+}
+
+void Matrix_graph::find_cycle(int v, int prev, int prev_prev, int &cycles) {
+
+    if(visited[v] != 0){
+        if(visited[v] == 1) {
+            if (oriented || v != prev_prev) {
+                cycles++;
+            }
+//            std::cout<< v <<"\t"<<prev<<"\t"<< cycles << "\n";
+        }
+        return;
+    }
+
+    visited[v]++;
+
+    for(int i = 0; i < vertices; i++){
+        if(adj[v][i] != nullptr) {
+            find_cycle(i, v, prev, cycles);
+        }
+
     }
     visited[v]++;
 

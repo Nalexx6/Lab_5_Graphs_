@@ -23,6 +23,8 @@ void Functions::matrix_random_graph(int vertices, int edges) {
     }
     graph->output_graph();
     graph->dfs(connectivity);
+//    graph->bfs();
+    std::cout<<"Graph has "<<graph->acyclicity()<<" cycles\n";
 }
 
 void Functions::list_random_graph(int vertices, int edges) {
@@ -42,19 +44,20 @@ void Functions::list_random_graph(int vertices, int edges) {
         }
     }
     graph->output_graph();
-    graph->dfs(true);
+//    graph->dfs(connectivity);
+    graph->bfs();
     std::cout<<"Graph has "<<graph->acyclicity()<<" cycles\n";
 
 }
 
 void Functions::matrix_interactive() {
 
-    matrix_random_graph(5, 7);
+    matrix_random_graph(7, 5);
 
 }
 
 void Functions::list_interactive() {
 
-    list_random_graph(5, 5);
+    list_random_graph(7, 5);
 
 }

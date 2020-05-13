@@ -30,21 +30,33 @@ public:
     bool weighted;
     std::vector <Edge>* adj;
     int* visited;
-    std::queue <int> s_queue;
+
 
     List_graph(int& vertices, bool oriented, bool weighted);
 
+    //Graph structure
     bool edge_exists(int v, int w);
-
     void add_edge(unsigned int v, unsigned int w, int weight);
     void output_graph();
 
+    //Depth First Search(with finding amount of connectivity components)
     void dfs(bool connectivity);
     void dfs_(int v);
+
+    //Find amount of cycles in graph
     int acyclicity();
-    void find_cycle(int v, int prev, int& cycles);
+    void find_cycle(int v, int prev, int prev_prev, int& cycles);
+
+    //Breadth first search
     void bfs();
     void bfs(int v);
+
+    //Finding lowest-cost path(Dijsktra)
+    int** costs;
+    std::vector <int>** dijkstra_distance();
+    std::vector <int>* dijkstra_distance(int v);
+    void find_distance(int v, int w, std::vector <int>* distances);
+
 
 
 

@@ -16,6 +16,17 @@ List_graph::List_graph(int &vertices, bool oriented, bool weighted) {
     for(int i = 0; i < vertices; i++){
         visited[i] = 0;
     }
+
+    costs = new int* [vertices];
+    for(int i = 0; i < vertices; i++){
+        costs[i] = new int [vertices];
+    }
+
+    for(int i = 0; i < vertices; i++){
+        for(int j = 0; j < vertices; j++){
+            costs[i][j] = -1;
+        }
+    }
 }
 
 bool List_graph::edge_exists(int v, int w) {
@@ -71,14 +82,15 @@ void List_graph::dfs(bool connectivity) {
     for(int i = 0; i < vertices; i++){
         if(visited[i] == 0) {
             dfs_(i);
-            components++;
+            if(connectivity)
+                components++;
         }
     }
 //    for(int i = 0; i < vertices; i++){
 //        std::cout<<visited[i]<<"\t";
 //    }
-
-    std::cout<<"Graph has "<<components<<" connectivity components\n";
+    if(connectivity)
+        std::cout<<"Graph has "<<components<<" connectivity components\n";
 }
 
 void List_graph::dfs_(int v) {
@@ -94,33 +106,42 @@ void List_graph::dfs_(int v) {
 
 }
 
-//void List_graph::bfs() {
-//
-//    for(int i = 0; i < vertices; i++){
-//        if(visited[i] == 0){
-//            bfs(i);
-//        }
-//    }
-//    for(int i = 0; i < vertices; i++){
-//        std::cout<<visited[i]<<"\t";
-//    }
-//    std::cout<<"\n";
-//
-//}
-//
-//void List_graph::bfs(int v) {
-//
-//    if(visited[v] != 0){
-//        return;
-//    }
-//    visited[v]++;
-//    s_queue.push(v);
-//    for(int i = 0; i < adj[v].size(); i++){
-//        bfs(i);
-//    }
-//    s_queue.pop();
-//
-//}
+void List_graph::bfs() {
+
+    for(int i = 0; i < vertices; i++){
+        visited[i] = 0;
+    }
+    for(int i = 0; i < vertices; i++){
+        if(visited[i] == 0){
+            bfs(i);
+        }
+    }
+    for(int i = 0; i < vertices; i++){
+        std::cout<<visited[i]<<"\t";
+    }
+    std::cout<<"\n";
+
+}
+
+void List_graph::bfs(int v) {
+
+    std::queue <int> queue;
+    visited[v]++;
+    queue.push(v);
+    while(!queue.empty()){
+
+        v = queue.front();
+        queue.pop();
+        for(int i = 0; i < adj[v].size(); i++){
+            if(visited[i] == 0) {
+                visited[adj[v][i].vertex]++;
+                queue.push(adj[v][i].vertex);
+            }
+        }
+
+    }
+
+}
 int List_graph::acyclicity() {
     for(int i = 0; i < vertices; i++){
         visited[i] = 0;
@@ -128,7 +149,7 @@ int List_graph::acyclicity() {
     int cycles = 0;
     for(int i = 0; i < vertices; i++){
         if(visited[i] == 0){
-            find_cycle(i, i,cycles);
+            find_cycle(i, -1, -1, cycles);
         }
     }
 
@@ -136,23 +157,67 @@ int List_graph::acyclicity() {
 
 }
 
-void List_graph::find_cycle(int v, int prev, int& cycles) {
+void List_graph::find_cycle(int v, int prev, int prev_prev, int& cycles) {
 
     if(visited[v] != 0){
         if(visited[v] == 1) {
-            if (oriented || v != prev) {
+            if (oriented || v != prev_prev) {
                 cycles++;
             }
-            std::cout<< v <<"\t"<<prev<<"\t"<< cycles << "\n";
+//            std::cout<< v <<"\t"<<prev<<"\t"<< cycles << "\n";
         }
         return;
     }
 
     visited[v]++;
     for(int i = 0; i < adj[v].size(); i++){
-        find_cycle(adj[v][i].vertex, prev,cycles);
+        find_cycle(adj[v][i].vertex, v , prev,cycles);
 
     }
     visited[v]++;
+
+}
+
+std::vector <int>** List_graph::dijkstra_distance() {
+
+    std:: vector <int>** distances = new std::vector <int>* [vertices];
+
+    for(int i = 0; i < vertices; i++){
+        distances[i] = dijkstra_distance(i);
+    }
+
+    return distances;
+
+}
+
+std::vector <int >* List_graph::dijkstra_distance(int v) {
+
+
+    std::vector <int>* distances = new std::vector <int> [vertices];
+    for(int i = 0; i < vertices; i++){
+        distances[i] = {};
+    }
+    distances[v].push_back(v);
+
+    for(int i = 0; i < vertices; i++){
+        visited[i] = 0;
+    }
+
+    find_distance(v, v, distances);
+
+    return distances;
+
+}
+
+void List_graph::find_distance(int v, int w, std::vector <int>* distances) {
+
+    int k = 0;
+    for(int i = 0; i < vertices; i++){
+        if(visited[i] == 0)
+    }
+    int min = 0;
+    for(int i = 0; i < vertices; i++){
+
+    }
 
 }
