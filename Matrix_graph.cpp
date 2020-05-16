@@ -25,6 +25,17 @@ Matrix_graph::Matrix_graph(int &vertices, bool oriented, bool weighted) {
         }
     }
 
+    costs = new int* [vertices];
+    for(int i = 0; i < vertices; i++){
+        costs[i] = new int [vertices];
+    }
+
+    for(int i = 0; i < vertices; i++){
+        for(int j = 0; j < vertices; j++){
+            costs[i][j] = -1;
+        }
+    }
+
 }
 
 bool Matrix_graph::edge_exists(int v, int w) {
@@ -69,7 +80,7 @@ void Matrix_graph::output_graph() {
 
 }
 
-void Matrix_graph::dfs(bool connectivity) {
+int Matrix_graph::dfs(bool connectivity) {
 
     for(int i = 0; i < vertices; i++){
         visited[i] = 0;
@@ -85,9 +96,7 @@ void Matrix_graph::dfs(bool connectivity) {
 //     for(int i = 0; i < vertices; i++){
 //         std::cout<<visited[i]<<"\t";
 //     }
-    if(connectivity)
-        std::cout<<"Graph has "<<components<<" connectivity components\n";
-
+    return components;
 }
 
 void Matrix_graph::dfs_(int v) {
@@ -178,3 +187,86 @@ void Matrix_graph::find_cycle(int v, int prev, int prev_prev, int &cycles) {
 
 }
 
+int Matrix_graph::exist_unvisited() {
+
+    int k = 0;
+    int min = -1;
+    for(int i = 0; i < vertices; i++){
+        if(visited[i] == 0){
+            k++;
+            min = i;
+        }
+    }
+    return min;
+
+}
+
+void Matrix_graph::copy_vector(std::vector<int> &vector_1, std::vector<int> &vector_2) {
+
+    vector_2.clear();
+    for(int i = 0; i < vector_1.size(); i++){
+        vector_2.emplace_back(vector_1[i]);
+    }
+
+}
+
+std::vector<int> **Matrix_graph::dijkstra_distance() {
+
+    std:: vector <int>** distances = new std::vector <int>* [vertices];
+
+    for(int i = 0; i < vertices; i++){
+        distances[i] = dijkstra_distance(i);
+    }
+
+    return distances;
+
+}
+
+std::vector<int> *Matrix_graph::dijkstra_distance(int v) {
+
+    std::vector <int>* distances = new std::vector <int> [vertices];
+    for(int i = 0; i < vertices; i++){
+        distances[i] = {};
+    }
+
+    for(int i = 0; i < vertices; i++){
+        if(i != v){
+            costs[v][i] = INT32_MAX;
+        }
+    }
+    costs[v][v] = 0;
+    for(int i = 0; i < vertices; i++){
+        visited[i] = 0;
+    }
+    find_distance(v, distances);
+    return distances;
+
+}
+
+void Matrix_graph::find_distance(int v, std::vector<int> *distances) {
+
+    while(exist_unvisited() >= 0) {
+        int min = exist_unvisited();
+        for (int i = 0; i < vertices; i++) {
+
+            if ((costs[v][i] < costs[v][min] && visited[i] == 0) || (i == v && visited[v] == 0)) {
+                min = i;
+            }
+
+        }
+        visited[min]++;
+        for (int i = 0; i < vertices; i++) {
+            if (adj[min][i] != nullptr){
+                if((costs[v][i] > costs[v][min] + *adj[min][i]) &&
+                visited[i] == 0) {
+
+                costs[v][i] = costs[v][min] + *adj[min][i];
+                copy_vector(distances[min], distances[i]);
+                distances[i].emplace_back(min);
+
+                }
+            }
+        }
+    }
+
+}

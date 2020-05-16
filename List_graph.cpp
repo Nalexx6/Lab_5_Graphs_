@@ -66,14 +66,14 @@ void List_graph::output_graph() {
     for(int i = 0; i < vertices; i++){
         std::cout<<"Vertex "<<i<<" adjacent with vertices:\t";
         for(int j = 0; j < adj[i].size(); j++){
-            std::cout<<adj[i][j].vertex<<"\t";
+            std::cout<<adj[i][j].vertex<<"("<<adj[i][j].weight<<")"<<"\t";
         }
         std::cout<<"\n";
     }
 
 }
 
-void List_graph::dfs(bool connectivity) {
+int List_graph::dfs(bool connectivity) {
 
     for(int i = 0; i < vertices; i++){
         visited[i] = 0;
@@ -89,8 +89,7 @@ void List_graph::dfs(bool connectivity) {
 //    for(int i = 0; i < vertices; i++){
 //        std::cout<<visited[i]<<"\t";
 //    }
-    if(connectivity)
-        std::cout<<"Graph has "<<components<<" connectivity components\n";
+    return components;
 }
 
 void List_graph::dfs_(int v) {
@@ -190,34 +189,73 @@ std::vector <int>** List_graph::dijkstra_distance() {
 
 }
 
-std::vector <int >* List_graph::dijkstra_distance(int v) {
+std::vector <int>* List_graph::dijkstra_distance(int v) {
 
 
     std::vector <int>* distances = new std::vector <int> [vertices];
     for(int i = 0; i < vertices; i++){
         distances[i] = {};
     }
-    distances[v].push_back(v);
-
+    for(int i = 0; i < vertices; i++){
+        if(i != v){
+            costs[v][i] = INT32_MAX;
+        }
+    }
+    costs[v][v] = 0;
     for(int i = 0; i < vertices; i++){
         visited[i] = 0;
     }
 
-    find_distance(v, v, distances);
+    find_distance(v, distances);
 
     return distances;
 
 }
 
-void List_graph::find_distance(int v, int w, std::vector <int>* distances) {
+int List_graph::exist_unvisited() {
 
     int k = 0;
+    int min = -1;
     for(int i = 0; i < vertices; i++){
-        if(visited[i] == 0)
+        if(visited[i] == 0){
+            k++;
+            min = i;
+        }
     }
-    int min = 0;
-    for(int i = 0; i < vertices; i++){
+    return min;
 
+}
+
+void List_graph::copy_vector(std::vector<int>& vector_1, std::vector <int>& vector_2) {
+
+    vector_2.clear();
+    for(int i = 0; i < vector_1.size(); i++){
+        vector_2.emplace_back(vector_1[i]);
+    }
+}
+
+void List_graph::find_distance(int v, std::vector <int>* distances) {
+
+    while(exist_unvisited() >= 0) {
+        int min = exist_unvisited();
+        for (int i = 0; i < vertices; i++) {
+
+            if ((costs[v][i] < costs[v][min] && visited[i] == 0) || (i == v && visited[v] == 0)) {
+                min = i;
+            }
+
+        }
+        visited[min]++;
+        for (int i = 0; i < adj[min].size(); i++) {
+            if ((costs[v][adj[min][i].vertex] > costs[v][min] + adj[min][i].weight) &&
+                visited[adj[min][i].vertex] == 0) {
+
+                costs[v][adj[min][i].vertex] = costs[v][min] + adj[min][i].weight;
+                copy_vector(distances[min], distances[adj[min][i].vertex]);
+                distances[adj[min][i].vertex].emplace_back(min);
+
+            }
+        }
     }
 
 }

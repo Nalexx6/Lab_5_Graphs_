@@ -22,12 +22,12 @@ private:
             this->weight = weight;
         }
     };
-    int vertices;
 
 public:
 
     bool oriented;
     bool weighted;
+    int vertices;
     std::vector <Edge>* adj;
     int* visited;
 
@@ -40,7 +40,7 @@ public:
     void output_graph();
 
     //Depth First Search(with finding amount of connectivity components)
-    void dfs(bool connectivity);
+    int dfs(bool connectivity);
     void dfs_(int v);
 
     //Find amount of cycles in graph
@@ -51,11 +51,13 @@ public:
     void bfs();
     void bfs(int v);
 
-    //Finding lowest-cost path(Dijsktra)
+    //Finding lowest-cost path(Dijkstra)
+    int exist_unvisited();
+    static void copy_vector(std::vector <int>& vector_1, std::vector <int>& vector_2);
     int** costs;
     std::vector <int>** dijkstra_distance();
     std::vector <int>* dijkstra_distance(int v);
-    void find_distance(int v, int w, std::vector <int>* distances);
+    void find_distance(int v, std::vector <int>* distances);
 
 
 
