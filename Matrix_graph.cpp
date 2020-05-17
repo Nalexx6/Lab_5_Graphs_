@@ -60,7 +60,13 @@ void Matrix_graph::add_edge(unsigned int v, unsigned int w, int* weight) {
 
 void Matrix_graph::output_graph() {
 
+    std::cout<<"   ";
     for(int i = 0; i < vertices; i++){
+        std::cout<<i<<" ";
+    }
+    std::cout<<"\n";
+    for(int i = 0; i < vertices; i++){
+        std::cout<<i<<": ";
         for(int j = 0; j < vertices; j++){
             if(adj[i][j] != nullptr)
                 std::cout<<*adj[i][j]<<" ";
@@ -69,14 +75,14 @@ void Matrix_graph::output_graph() {
         }
         std::cout<<"\n";
     }
-    for(int i = 0; i < vertices; i++){
-        std::cout<<"Vertex "<<i<<" is adjacent with vertices:\t";
-        for (int j = 0; j < vertices; ++j) {
-            if(adj[i][j] != nullptr)
-                std::cout<<j<<"\t";
-        }
-        std::cout<<"\n";
-    }
+//    for(int i = 0; i < vertices; i++){
+//        std::cout<<"Vertex "<<i<<" is adjacent with vertices:\t";
+//        for (int j = 0; j < vertices; ++j) {
+//            if(adj[i][j] != nullptr)
+//                std::cout<<j<<"\t";
+//        }
+//        std::cout<<"\n";
+//    }
 
 }
 
@@ -268,5 +274,38 @@ void Matrix_graph::find_distance(int v, std::vector<int> *distances) {
             }
         }
     }
+
+}
+
+void Matrix_graph::top_sort() {
+
+    sorted = new int [vertices];
+    for(int i = 0; i < vertices; i++){
+        sorted[i] = 0;
+        visited[i] = 0;
+    }
+    int index = vertices - 1;
+    for(int i = 0; i < vertices; i++){
+        if(visited[i] == 0){
+            sort(i, index);
+        }
+    }
+
+}
+
+void Matrix_graph::sort(int v, int &index) {
+
+    if(visited[v] != 0)
+        return;
+    visited[v]++;
+    for(int i = 0; i < vertices; i++){
+        if(adj[v][i] != nullptr) {
+            sort(i, index);
+        }
+
+    }
+    visited[v]++;
+    sorted[index] = v;
+    index--;
 
 }

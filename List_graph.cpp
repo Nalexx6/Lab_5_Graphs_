@@ -141,6 +141,7 @@ void List_graph::bfs(int v) {
     }
 
 }
+
 int List_graph::acyclicity() {
     for(int i = 0; i < vertices; i++){
         visited[i] = 0;
@@ -257,5 +258,36 @@ void List_graph::find_distance(int v, std::vector <int>* distances) {
             }
         }
     }
+
+}
+
+void List_graph::top_sort() {
+
+    sorted = new int [vertices];
+    for(int i = 0; i < vertices; i++){
+        sorted[i] = 0;
+        visited[i] = 0;
+    }
+    int index = vertices - 1;
+    for(int i = 0; i < vertices; i++){
+        if(visited[i] == 0){
+            sort(i, index);
+        }
+    }
+
+}
+
+void List_graph::sort(int v, int &index) {
+
+    if(visited[v] != 0)
+        return;
+    visited[v]++;
+    for(int i = 0; i < adj[v].size(); i++){
+        sort(adj[v][i].vertex, index);
+
+    }
+    visited[v]++;
+    sorted[index] = v;
+    index--;
 
 }

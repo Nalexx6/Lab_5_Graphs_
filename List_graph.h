@@ -59,6 +59,11 @@ public:
     std::vector <int>* dijkstra_distance(int v);
     void find_distance(int v, std::vector <int>* distances);
 
+    //Topological sorting
+    int* sorted;
+    void top_sort();
+    void sort(int v, int& index);
+
 
 
 

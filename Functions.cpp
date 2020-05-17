@@ -4,9 +4,9 @@
 
 #include "Functions.h"
 
-Matrix_graph* Functions::matrix_random_graph(int vertices, int edges) {
+Matrix_graph* Functions::matrix_random_graph(int vertices, int edges, bool oriented) {
 
-    bool weighted = false, oriented = false;
+    bool weighted = true;
     Matrix_graph* graph = new Matrix_graph(vertices, oriented, weighted);
 
     for(int i = 0; i < edges; i++) {
@@ -17,7 +17,7 @@ Matrix_graph* Functions::matrix_random_graph(int vertices, int edges) {
         unsigned v = Random::rand(0, vertices - 1);
         unsigned w = Random::rand(0, vertices - 1);
         int* weight = new int(Random::rand(vertices - 1 ,  2 * vertices - 1));
-        if(graph->edge_exists(v, w)){
+        if(graph->edge_exists(v, w) || v == w){
             i--;
         } else {
             graph->add_edge(v, w, weight);
@@ -27,16 +27,16 @@ Matrix_graph* Functions::matrix_random_graph(int vertices, int edges) {
     return graph;
 }
 
-List_graph* Functions::list_random_graph(int vertices, int edges) {
+List_graph* Functions::list_random_graph(int vertices, int edges, bool oriented) {
 
-    bool weighted = true, oriented = false;
+    bool weighted = true;
     List_graph* graph = new List_graph(vertices, oriented, weighted);
 
     for(int i = 0; i < edges; i++) {
         unsigned v = Random::rand(0, vertices - 1);
         unsigned w = Random::rand(0, vertices - 1);
         int weight = Random::rand(0 ,  2 * vertices - 1);
-        if(graph->edge_exists(v , w)){
+        if(graph->edge_exists(v , w) || v == w){
             i--;
         } else {
             graph->add_edge(v, w, weight);
@@ -48,7 +48,7 @@ List_graph* Functions::list_random_graph(int vertices, int edges) {
 
 void Functions::matrix_interactive() {
 
-    Matrix_graph* graph = matrix_random_graph(1, 0);
+    Matrix_graph* graph = matrix_random_graph(1, 0, false);
     char response = 'y';
     while(response == 'y') {
 
@@ -60,16 +60,22 @@ void Functions::matrix_interactive() {
                    "5 - Find amount of cycles in graph\n"
                    "6 - Find lowest-cost path from one vertex to another\n"
                    "7 - Find lowest-cost path from one vertex to all other vertices\n"
-                   "8 - Find lowest-cost path between all vertices\n";
+                   "8 - Find lowest-cost path between all vertices\n"
+                   "9 - Sort vertices in your graph topologically\n";
         int key;
         std::cin>>key;
         if(key == 1){
             int vertices, edges;
+            char ori;
+            bool oriented;
             std::cout<<"Please enter the number of vertices in your graph\n";
             std::cin>>vertices;
             std::cout<<"Please enter the number of edges\n";
             std::cin>>edges;
-            graph = matrix_random_graph(vertices, edges);
+            std::cout<<"Enter 'y', if your graph is oriented, or 'n' if not\n";
+            std::cin>>ori;
+            oriented = ori == 'y';
+            graph = matrix_random_graph(vertices, edges, oriented);
             std::cout<<"This is your graph\n";
             graph->output_graph();
         }
@@ -137,6 +143,19 @@ void Functions::matrix_interactive() {
                 }
             }
         }
+        if(key == 9){
+            if(graph->acyclicity() != 0){
+                std::cout<<"Your graph has cycles - sorting is impossible\n";
+            } else if(!graph->oriented){
+                std::cout<<"Your graph is unoriented - sorting is impossible\n";
+            } else{
+                graph->top_sort();
+                for(int i = 0; i < graph->vertices; i++){
+                    std::cout<<graph->sorted[i]<<"\t";
+                }
+                std::cout<<"\n";
+            }
+        }
         std::cout<<"If you want to do anything else with graph press 'y', press 'n', if you don`t\n";
         std::cin>>response;
 
@@ -146,7 +165,7 @@ void Functions::matrix_interactive() {
 
 void Functions::list_interactive() {
 
-    List_graph* graph = list_random_graph(1, 0);
+    List_graph* graph = list_random_graph(1, 0, false);
     char response = 'y';
     while(response == 'y') {
 
@@ -158,16 +177,22 @@ void Functions::list_interactive() {
                    "5 - Find amount of cycles in graph\n"
                    "6 - Find lowest-cost path from one vertex to another\n"
                    "7 - Find lowest-cost path from one vertex to all other vertices\n"
-                   "8 - Find lowest-cost path between all vertices\n";
+                   "8 - Find lowest-cost path between all vertices\n"
+                   "9 - Sort vertices in your graph topologically\n";
         int key;
         std::cin>>key;
         if(key == 1){
             int vertices, edges;
+            char ori;
+            bool oriented;
             std::cout<<"Please enter the number of vertices in your graph\n";
             std::cin>>vertices;
             std::cout<<"Please enter the number of edges\n";
             std::cin>>edges;
-            graph = list_random_graph(vertices, edges);
+            std::cout<<"Enter 'y', if your graph is oriented, or 'n' if not\n";
+            std::cin>>ori;
+            oriented = ori == 'y';
+            graph = list_random_graph(vertices, edges, oriented);
             std::cout<<"This is your graph\n";
             graph->output_graph();
         }
@@ -232,6 +257,19 @@ void Functions::list_interactive() {
                 for(int j = 0; j < graph->vertices; j++){
                     std::cout<<graph->costs[i][j]<<"\t";
                 }
+            }
+        }
+        if(key == 9){
+            if(graph->acyclicity() != 0){
+                std::cout<<"Your graph has cycles - sorting is impossible\n";
+            } else if(!graph->oriented){
+                std::cout<<"Your graph is unoriented - sorting is impossible\n";
+            } else{
+                graph->top_sort();
+                for(int i = 0; i < graph->vertices; i++){
+                    std::cout<<graph->sorted[i]<<"\t";
+                }
+                std::cout<<"\n";
             }
         }
         std::cout<<"If you want to do anything else with graph press 'y', press 'n', if you don`t\n";

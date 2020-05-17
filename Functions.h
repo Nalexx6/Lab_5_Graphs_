@@ -14,8 +14,8 @@ class Functions {
 public:
 
 
-    static Matrix_graph* matrix_random_graph(int vertices, int edges);
-    static List_graph* list_random_graph(int vertices, int edges);
+    static Matrix_graph* matrix_random_graph(int vertices, int edges, bool oriented);
+    static List_graph* list_random_graph(int vertices, int edges, bool oriented);
 
     static void matrix_interactive();
     static void list_interactive();
