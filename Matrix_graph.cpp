@@ -309,3 +309,27 @@ void Matrix_graph::sort(int v, int &index) {
     index--;
 
 }
+
+Matrix_graph *Matrix_graph::span_tree() {
+
+    Matrix_graph* spanning_tree = new Matrix_graph(vertices, oriented, weighted);
+    for(int i = 0; i < vertices; i++){
+        visited[i] = 0;
+    }
+    span_tree(0, spanning_tree);
+//    spanning_tree->output_graph();
+    return spanning_tree;
+
+}
+
+void Matrix_graph::span_tree(int v, Matrix_graph *spanning_tree) {
+
+    visited[v]++;
+    for(int i = 0; i < vertices; i++){
+        if(visited[i] == 0 && adj[v][i] != nullptr) {
+            spanning_tree->add_edge(v, i, adj[v][i]);
+            span_tree(i, spanning_tree);
+        }
+    }
+
+}

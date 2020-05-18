@@ -61,7 +61,8 @@ void Functions::matrix_interactive() {
                    "6 - Find lowest-cost path from one vertex to another\n"
                    "7 - Find lowest-cost path from one vertex to all other vertices\n"
                    "8 - Find lowest-cost path between all vertices\n"
-                   "9 - Sort vertices in your graph topologically\n";
+                   "9 - Sort vertices in your graph topologically\n"
+                   "10 - Build spanning tree(based on dfs algorithm)\n";
         int key;
         std::cin>>key;
         if(key == 1){
@@ -156,6 +157,16 @@ void Functions::matrix_interactive() {
                 std::cout<<"\n";
             }
         }
+        if(key == 10){
+            if(graph->dfs(true) != 1){
+                std::cout<<"Your graph has more than one connectivity components - building is impossible\n";
+            } else if(graph->oriented){
+                std::cout<<"This algorithm works only for unoriented graphs\n";
+            } else{
+                std::cout<<"This is our spanning tree\n";
+                graph->span_tree()->output_graph();
+            }
+        }
         std::cout<<"If you want to do anything else with graph press 'y', press 'n', if you don`t\n";
         std::cin>>response;
 
@@ -178,7 +189,8 @@ void Functions::list_interactive() {
                    "6 - Find lowest-cost path from one vertex to another\n"
                    "7 - Find lowest-cost path from one vertex to all other vertices\n"
                    "8 - Find lowest-cost path between all vertices\n"
-                   "9 - Sort vertices in your graph topologically\n";
+                   "9 - Sort vertices in your graph topologically\n"
+                   "10 - Build spanning tree(based on dfs algorithm)\n";
         int key;
         std::cin>>key;
         if(key == 1){
@@ -270,6 +282,16 @@ void Functions::list_interactive() {
                     std::cout<<graph->sorted[i]<<"\t";
                 }
                 std::cout<<"\n";
+            }
+        }
+        if(key == 10){
+            if(graph->dfs(true) != 1){
+                std::cout<<"Your graph has more than one connectivity components - building is impossible\n";
+            } else if(graph->oriented){
+                std::cout<<"This algorithm works only for unoriented graphs\n";
+            } else{
+                std::cout<<"This is our spanning tree\n";
+                graph->span_tree()->output_graph();
             }
         }
         std::cout<<"If you want to do anything else with graph press 'y', press 'n', if you don`t\n";

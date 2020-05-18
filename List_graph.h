@@ -64,6 +64,9 @@ public:
     void top_sort();
     void sort(int v, int& index);
 
+    //Build spanning tree(dfs)
+    List_graph* span_tree();
+    void span_tree(int v, List_graph* spanning_tree);
 
 
 

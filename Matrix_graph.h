@@ -52,7 +52,9 @@ public:
     void top_sort();
     void sort(int v, int& index);
 
-
+    //Build spanning tree(dfs)
+    Matrix_graph* span_tree();
+    void span_tree(int v, Matrix_graph* spanning_tree);
 };
 
 

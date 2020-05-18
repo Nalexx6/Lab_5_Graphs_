@@ -291,3 +291,26 @@ void List_graph::sort(int v, int &index) {
     index--;
 
 }
+
+List_graph *List_graph::span_tree() {
+
+    List_graph* spanning_tree = new List_graph(vertices, oriented, weighted);
+    for(int i = 0; i < vertices; i++){
+        visited[i] = 0;
+    }
+    span_tree(0, spanning_tree);
+//    spanning_tree->output_graph();
+    return spanning_tree;
+
+}
+
+void List_graph::span_tree(int v, List_graph *spanning_tree) {
+
+    visited[v]++;
+    for(int i = 0; i < adj[v].size(); i++){
+        if(visited[adj[v][i].vertex] == 0) {
+            spanning_tree->add_edge(v, adj[v][i].vertex, adj[v][i].weight);
+            span_tree(adj[v][i].vertex, spanning_tree);
+        }
+    }
+}
