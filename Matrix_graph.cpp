@@ -333,3 +333,95 @@ void Matrix_graph::span_tree(int v, Matrix_graph *spanning_tree) {
     }
 
 }
+
+int Matrix_graph::sum_weight() {
+
+    int sum = 0;
+    for(int i = 0; i < vertices; i++){
+        for(int j = 0; j < vertices; j++){
+            if(adj[i][j] != nullptr)
+                sum += *adj[i][j];
+        }
+    }
+    if(!oriented)
+        sum /= 2;
+    return sum;
+
+}
+void Matrix_graph::merge_sort(std::vector <Span_edge>& array) {
+
+    std::vector <Span_edge> for_merge {};
+    for(int i = 0; i < array.size(); i++){
+        for_merge.emplace_back(array[i]);
+    }
+    sort(array, for_merge, 0, array.size() - 1);
+
+}
+
+void Matrix_graph::merge(std::vector <Span_edge>& array, std::vector <Span_edge>& for_merge, int lo, int mid, int hi) {
+
+    for(int i = lo; i < hi + 1; i++){
+        for_merge[i] = array[i];
+    }
+    int i = lo, j = mid + 1;
+    for(int k = lo; k < hi + 1; k++){
+        if(i > mid){
+            array[k] = for_merge[j];
+            j++;
+        } else if(j > hi){
+            array[k] = for_merge[i];
+            i++;
+        } else if(for_merge[i].weight > for_merge[j].weight){
+            array[k] = for_merge[j];
+            j++;
+        } else{
+            array[k] = for_merge[i];
+            i++;
+        }
+
+    }
+}
+
+void Matrix_graph::sort(std::vector <Span_edge>& array, std::vector <Span_edge>& for_merge, int lo, int hi) {
+
+    if(hi <= lo)
+        return;
+    int mid = lo + (hi - lo) / 2;
+    sort(array, for_merge, lo, mid);
+    sort(array, for_merge, mid + 1, hi);
+    merge(array, for_merge, lo ,mid, hi);
+
+}
+
+Matrix_graph *Matrix_graph::prim_spanning_tree() {
+
+    edges = {};
+    for(int i = 0; i < vertices; i++){
+        for(int j = 0; j < vertices; j++){
+            if(adj[i][j] != nullptr) {
+                edges.emplace_back(Span_edge(i, j, *adj[i][j]));
+            }
+        }
+    }
+    merge_sort(edges);
+    for(int i = 0; i < vertices; i++){
+        visited[i] = 0;
+    }
+    Matrix_graph* min_span_tree = new Matrix_graph(vertices, oriented, weighted);
+    int* weight = new int(edges[0].weight);
+    min_span_tree->add_edge(edges[0].v,edges[0].w, weight);
+    visited[edges[0].v]++;
+    visited[edges[0].w]++;
+    while(exist_unvisited() != -1){
+        for(int i = 1; i < edges.size(); i++){
+            if((visited[edges[i].v] != 0 && visited[edges[i].w] == 0) || (visited[edges[i].w] != 0 && visited[edges[i].v] == 0)){
+                weight = new int(edges[i].weight);
+                min_span_tree->add_edge(edges[i].v,edges[i].w, weight);
+                visited[edges[i].v]++;
+                visited[edges[i].w]++;
+                break;
+            }
+        }
+    }
+    return min_span_tree;
+}

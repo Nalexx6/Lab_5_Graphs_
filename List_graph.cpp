@@ -81,7 +81,7 @@ int List_graph::dfs(bool connectivity) {
     int components = 0;
     for(int i = 0; i < vertices; i++){
         if(visited[i] == 0) {
-            dfs_(i);
+            dfs_1(i);
             if(connectivity)
                 components++;
         }
@@ -92,13 +92,13 @@ int List_graph::dfs(bool connectivity) {
     return components;
 }
 
-void List_graph::dfs_(int v) {
+void List_graph::dfs_1(int v) {
 
     if(visited[v] != 0)
         return;
     visited[v]++;
     for(int i = 0; i < adj[v].size(); i++){
-            dfs_(adj[v][i].vertex);
+            dfs_1(adj[v][i].vertex);
 
     }
     visited[v]++;
@@ -314,3 +314,91 @@ void List_graph::span_tree(int v, List_graph *spanning_tree) {
         }
     }
 }
+
+int List_graph::sum_weight() {
+    int sum = 0;
+    for(int i = 0; i < vertices; i++){
+        for(int j = 0; j < adj[i].size(); j++){
+            sum+=adj[i][j].weight;
+        }
+    }
+    if(!oriented)
+        sum /= 2;
+    return sum;
+}
+
+void List_graph::merge_sort(std::vector <Span_edge>& array) {
+
+    std::vector <Span_edge> for_merge {};
+    for(int i = 0; i < array.size(); i++){
+        for_merge.emplace_back(array[i]);
+    }
+    sort(array, for_merge, 0, array.size() - 1);
+
+}
+
+void List_graph::merge(std::vector <Span_edge>& array, std::vector <Span_edge>& for_merge, int lo, int mid, int hi) {
+
+    for(int i = lo; i < hi + 1; i++){
+        for_merge[i] = array[i];
+    }
+    int i = lo, j = mid + 1;
+    for(int k = lo; k < hi + 1; k++){
+        if(i > mid){
+            array[k] = for_merge[j];
+            j++;
+        } else if(j > hi){
+            array[k] = for_merge[i];
+            i++;
+        } else if(for_merge[i].weight > for_merge[j].weight){
+            array[k] = for_merge[j];
+            j++;
+        } else{
+            array[k] = for_merge[i];
+            i++;
+        }
+
+    }
+}
+
+void List_graph::sort(std::vector <Span_edge>& array, std::vector <Span_edge>& for_merge, int lo, int hi) {
+
+    if(hi <= lo)
+        return;
+    int mid = lo + (hi - lo) / 2;
+    sort(array, for_merge, lo, mid);
+    sort(array, for_merge, mid + 1, hi);
+    merge(array, for_merge, lo ,mid, hi);
+
+}
+
+List_graph *List_graph::prim_spanning_tree() {
+
+    edges = {};
+    for(int i = 0; i < vertices; i++){
+        for(int j = 0; j < adj[i].size(); j++){
+            edges.emplace_back(Span_edge(i, adj[i][j].vertex, adj[i][j].weight));
+        }
+    }
+    merge_sort(edges);
+    for(int i = 0; i < vertices; i++){
+        visited[i] = 0;
+    }
+
+    List_graph* min_span_tree = new List_graph(vertices, oriented, weighted);
+    min_span_tree->add_edge(edges[0].v,edges[0].w, edges[0].weight);
+    visited[edges[0].v]++;
+    visited[edges[0].w]++;
+    while(exist_unvisited() != -1){
+        for(int i = 1; i < edges.size(); i++){
+            if((visited[edges[i].v] != 0 && visited[edges[i].w] == 0) || (visited[edges[i].w] != 0 && visited[edges[i].v] == 0)){
+                min_span_tree->add_edge(edges[i].v,edges[i].w, edges[i].weight);
+                visited[edges[i].v]++;
+                visited[edges[i].w]++;
+                break;
+            }
+        }
+    }
+    return min_span_tree;
+}
+

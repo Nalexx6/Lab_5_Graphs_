@@ -55,6 +55,28 @@ public:
     //Build spanning tree(dfs)
     Matrix_graph* span_tree();
     void span_tree(int v, Matrix_graph* spanning_tree);
+    int sum_weight();
+
+    //Min spanning tree(Prim)
+    class Span_edge{
+    public:
+        unsigned v;
+        unsigned w;
+        int weight;
+        Span_edge(unsigned v, unsigned w, int weight){
+            this->v = v;
+            this->w = w;
+            this->weight = weight;
+        }
+        Span_edge() = default;
+
+    };
+    Matrix_graph* prim_spanning_tree();
+    std::vector <Span_edge> edges;
+    //Merge sort for all edges, to find min weight
+    void merge_sort(std::vector <Span_edge>& array);
+    void merge(std::vector <Span_edge>& array, std::vector <Span_edge>& for_merge, int lo, int mid, int hi);
+    void sort(std::vector <Span_edge>& array, std::vector <Span_edge>& for_merge, int lo, int hi);
 };
 
 
