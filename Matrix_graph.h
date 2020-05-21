@@ -15,12 +15,12 @@ private:
 public:
 
     bool oriented;
-    bool weighted;
     int vertices;
     int*** adj;
     int* visited;
+    int* component;
 
-    Matrix_graph(int& vertices, bool oriented, bool weighted);
+    Matrix_graph(int& vertices, bool oriented);
 
     //Graph structure
     bool edge_exists(int v, int w);
@@ -29,7 +29,7 @@ public:
 
     //Depth first search
     int dfs(bool connectivity);
-    void dfs_(int v);
+    void dfs_(int v, bool& connectivity);
 
     //Breadth first search
     void bfs();

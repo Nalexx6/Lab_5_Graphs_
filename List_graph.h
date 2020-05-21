@@ -27,13 +27,13 @@ private:
 public:
 
     bool oriented;
-    bool weighted;
     int vertices;
     std::vector <Edge>* adj;
     int* visited;
+    int* component;
 
 
-    List_graph(int& vertices, bool oriented, bool weighted);
+    List_graph(int& vertices, bool oriented);
 
     //Graph structure
     bool edge_exists(int v, int w);
@@ -42,7 +42,7 @@ public:
 
     //Depth First Search(with finding amount of connectivity components)
     int dfs(bool connectivity);
-    void dfs_1(int v);
+    void dfs_1(int v, bool& connectivity);
 
     //Find amount of cycles in graph
     int acyclicity();

@@ -4,11 +4,10 @@
 
 #include "List_graph.h"
 
-List_graph::List_graph(int &vertices, bool oriented, bool weighted) {
+List_graph::List_graph(int &vertices, bool oriented) {
 
     this->vertices = vertices;
     this->oriented = oriented;
-    this->weighted = weighted;
 
     adj = new std::vector <Edge> [vertices];
 
@@ -26,6 +25,11 @@ List_graph::List_graph(int &vertices, bool oriented, bool weighted) {
         for(int j = 0; j < vertices; j++){
             costs[i][j] = -1;
         }
+    }
+
+    component= new int [vertices];
+    for(int i = 0; i < vertices; i++){
+        component[i] = 0;
     }
 }
 
@@ -81,29 +85,38 @@ int List_graph::dfs(bool connectivity) {
     int components = 0;
     for(int i = 0; i < vertices; i++){
         if(visited[i] == 0) {
-            dfs_1(i);
-            if(connectivity)
+            dfs_1(i, connectivity);
+            if(connectivity) {
                 components++;
+                for (int i = 0; i < vertices; i++) {
+                    if (visited[i] != 0)
+                        component[i]++;
+                }
+            }
+            else
+                std::cout<<"\n";
         }
     }
-//    for(int i = 0; i < vertices; i++){
-//        std::cout<<visited[i]<<"\t";
-//    }
+
     return components;
 }
 
-void List_graph::dfs_1(int v) {
+void List_graph::dfs_1(int v, bool& connectivity) {
 
     if(visited[v] != 0)
         return;
     visited[v]++;
+    if(!connectivity){
+        std::cout<<v<<"->";
+    }
     for(int i = 0; i < adj[v].size(); i++){
-            dfs_1(adj[v][i].vertex);
+            dfs_1(adj[v][i].vertex, connectivity);
 
     }
     visited[v]++;
 
 }
+
 
 void List_graph::bfs() {
 
@@ -113,12 +126,10 @@ void List_graph::bfs() {
     for(int i = 0; i < vertices; i++){
         if(visited[i] == 0){
             bfs(i);
+            std::cout<<"\n";
         }
     }
-    for(int i = 0; i < vertices; i++){
-        std::cout<<visited[i]<<"\t";
-    }
-    std::cout<<"\n";
+
 
 }
 
@@ -131,8 +142,9 @@ void List_graph::bfs(int v) {
 
         v = queue.front();
         queue.pop();
+        std::cout<<v<<"->";
         for(int i = 0; i < adj[v].size(); i++){
-            if(visited[i] == 0) {
+            if(visited[adj[v][i].vertex] == 0) {
                 visited[adj[v][i].vertex]++;
                 queue.push(adj[v][i].vertex);
             }
@@ -198,14 +210,12 @@ std::vector <int>* List_graph::dijkstra_distance(int v) {
         distances[i] = {};
     }
     for(int i = 0; i < vertices; i++){
-        if(i != v){
+        if(component[i] == component[v]){
             costs[v][i] = INT32_MAX;
+            visited[i] = 0;
         }
     }
     costs[v][v] = 0;
-    for(int i = 0; i < vertices; i++){
-        visited[i] = 0;
-    }
 
     find_distance(v, distances);
 
@@ -294,7 +304,7 @@ void List_graph::sort(int v, int &index) {
 
 List_graph *List_graph::span_tree() {
 
-    List_graph* spanning_tree = new List_graph(vertices, oriented, weighted);
+    List_graph* spanning_tree = new List_graph(vertices, oriented);
     for(int i = 0; i < vertices; i++){
         visited[i] = 0;
     }
@@ -385,7 +395,7 @@ List_graph *List_graph::prim_spanning_tree() {
         visited[i] = 0;
     }
 
-    List_graph* min_span_tree = new List_graph(vertices, oriented, weighted);
+    List_graph* min_span_tree = new List_graph(vertices, oriented);
     min_span_tree->add_edge(edges[0].v,edges[0].w, edges[0].weight);
     visited[edges[0].v]++;
     visited[edges[0].w]++;

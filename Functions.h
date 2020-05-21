@@ -19,6 +19,9 @@ public:
 
     static void matrix_interactive();
     static void list_interactive();
+    static void matrix_demo();
+    static void list_demo();
+//    static void
 
 };
 

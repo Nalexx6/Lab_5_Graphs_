@@ -4,11 +4,10 @@
 
 #include "Matrix_graph.h"
 
-Matrix_graph::Matrix_graph(int &vertices, bool oriented, bool weighted) {
+Matrix_graph::Matrix_graph(int &vertices, bool oriented) {
 
     this->vertices = vertices;
     this->oriented = oriented;
-    this->weighted = weighted;
 
     visited = new int [vertices];
     for(int i = 0; i < vertices; i++){
@@ -35,8 +34,11 @@ Matrix_graph::Matrix_graph(int &vertices, bool oriented, bool weighted) {
             costs[i][j] = -1;
         }
     }
-
-}
+    component = new int [vertices];
+    for(int i = 0; i < vertices; i++){
+        component[i] = 0;
+    }
+};
 
 bool Matrix_graph::edge_exists(int v, int w) {
 
@@ -75,14 +77,7 @@ void Matrix_graph::output_graph() {
         }
         std::cout<<"\n";
     }
-//    for(int i = 0; i < vertices; i++){
-//        std::cout<<"Vertex "<<i<<" is adjacent with vertices:\t";
-//        for (int j = 0; j < vertices; ++j) {
-//            if(adj[i][j] != nullptr)
-//                std::cout<<j<<"\t";
-//        }
-//        std::cout<<"\n";
-//    }
+
 
 }
 
@@ -94,28 +89,34 @@ int Matrix_graph::dfs(bool connectivity) {
      int components = 0;
      for(int i = 0; i < vertices; i++){
          if(visited[i] == 0) {
-             dfs_(i);
-             if(connectivity)
+             dfs_(i, connectivity);
+             if(connectivity) {
                  components++;
+                 for (int i = 0; i < vertices; i++) {
+                     if (visited[i] != 0)
+                         component[i]++;
+                 }
+             }
+             else
+                 std::cout<<"\n";
          }
      }
-//     for(int i = 0; i < vertices; i++){
-//         std::cout<<visited[i]<<"\t";
-//     }
     return components;
 }
 
-void Matrix_graph::dfs_(int v) {
+void Matrix_graph::dfs_(int v, bool& connectivity) {
 
     if(visited[v] != 0)
         return;
     visited[v]++;
+    if(!connectivity){
+        std::cout<<v<<"->";
+    }
     for(int i = 0; i < vertices; i++){
         if(adj[v][i] != nullptr){
-            dfs_(i);
+            dfs_(i, connectivity);
         }
     }
-    visited[v]++;
 
 }
 
@@ -127,13 +128,9 @@ void Matrix_graph::bfs() {
     for(int i = 0; i < vertices; i++){
         if(visited[i] == 0){
             bfs(i);
+            std::cout<<"\n";
         }
     }
-    for(int i = 0; i < vertices; i++){
-        std::cout<<visited[i]<<"\t";
-    }
-    std::cout<<"\n";
-
 }
 
 void Matrix_graph::bfs(int v) {
@@ -145,6 +142,7 @@ void Matrix_graph::bfs(int v) {
 
         v = queue.front();
         queue.pop();
+        std::cout<<v<<"->";
         for(int i = 0; i < vertices; i++){
             if(visited[i] == 0 && adj[v][i] != nullptr) {
                 visited[i]++;
@@ -236,14 +234,13 @@ std::vector<int> *Matrix_graph::dijkstra_distance(int v) {
     }
 
     for(int i = 0; i < vertices; i++){
-        if(i != v){
+        if(component[i] == component[v]){
             costs[v][i] = INT32_MAX;
+            visited[i] = 0;
         }
     }
     costs[v][v] = 0;
-    for(int i = 0; i < vertices; i++){
-        visited[i] = 0;
-    }
+
     find_distance(v, distances);
     return distances;
 
@@ -312,7 +309,7 @@ void Matrix_graph::sort(int v, int &index) {
 
 Matrix_graph *Matrix_graph::span_tree() {
 
-    Matrix_graph* spanning_tree = new Matrix_graph(vertices, oriented, weighted);
+    Matrix_graph* spanning_tree = new Matrix_graph(vertices, oriented);
     for(int i = 0; i < vertices; i++){
         visited[i] = 0;
     }
@@ -407,7 +404,7 @@ Matrix_graph *Matrix_graph::prim_spanning_tree() {
     for(int i = 0; i < vertices; i++){
         visited[i] = 0;
     }
-    Matrix_graph* min_span_tree = new Matrix_graph(vertices, oriented, weighted);
+    Matrix_graph* min_span_tree = new Matrix_graph(vertices, oriented);
     int* weight = new int(edges[0].weight);
     min_span_tree->add_edge(edges[0].v,edges[0].w, weight);
     visited[edges[0].v]++;
