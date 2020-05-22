@@ -21,6 +21,7 @@ public:
     int* component;
 
     Matrix_graph(int& vertices, bool oriented);
+    ~Matrix_graph();
 
     //Graph structure
     bool edge_exists(int v, int w);
@@ -32,8 +33,8 @@ public:
     void dfs_(int v, bool& connectivity);
 
     //Breadth first search
-    void bfs();
-    void bfs(int v);
+    void bfs(bool benchmark);
+    void bfs(int v, bool benchmark);
 
     //Find amount of cycles in graph
     int acyclicity();
@@ -77,6 +78,10 @@ public:
     void merge_sort(std::vector <Span_edge>& array);
     void merge(std::vector <Span_edge>& array, std::vector <Span_edge>& for_merge, int lo, int mid, int hi);
     void sort(std::vector <Span_edge>& array, std::vector <Span_edge>& for_merge, int lo, int hi);
+
+    //Delete graph from memory
+    void destroy_graph();
+
 };
 
 

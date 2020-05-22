@@ -6,7 +6,6 @@
 #define LAB_5_GRAPHS__MODE_H
 
 #include "Functions.h"
-
 class Mode {
 
 public:

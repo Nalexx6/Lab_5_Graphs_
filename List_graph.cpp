@@ -31,13 +31,17 @@ List_graph::List_graph(int &vertices, bool oriented) {
     for(int i = 0; i < vertices; i++){
         component[i] = 0;
     }
+
+    sorted = new int [vertices];
+
 }
+
+List_graph::~List_graph() = default;
 
 bool List_graph::edge_exists(int v, int w) {
 
     for(int i = 0; i < adj[v].size(); i++){
         if(adj[v][i].vertex == w){
-//            std::cout<<"Edge "<<v<<" -> "<<w<<" already exists\n";
             return true;
         }
     }
@@ -46,11 +50,9 @@ bool List_graph::edge_exists(int v, int w) {
 
 void List_graph::add_edge(unsigned int v, unsigned int w, int weight) {
 
-    for(int i = 0; i < adj[v].size(); i++){
-        if(adj[v][i].vertex == w){
-            std::cout<<"Edge "<<v<<" -> "<<w<<" already exists\n";
-            return;
-        }
+
+    if(edge_exists(v, w)){
+        return;
     }
     if(oriented) {
         adj[v].emplace_back(Edge(w, weight));
@@ -118,22 +120,23 @@ void List_graph::dfs_1(int v, bool& connectivity) {
 }
 
 
-void List_graph::bfs() {
+void List_graph::bfs(bool benchmark) {
 
     for(int i = 0; i < vertices; i++){
         visited[i] = 0;
     }
     for(int i = 0; i < vertices; i++){
         if(visited[i] == 0){
-            bfs(i);
-            std::cout<<"\n";
+            bfs(i, benchmark);
+            if(!benchmark)
+                std::cout<<"\n";
         }
     }
 
 
 }
 
-void List_graph::bfs(int v) {
+void List_graph::bfs(int v, bool benchmark) {
 
     std::queue <int> queue;
     visited[v]++;
@@ -142,7 +145,8 @@ void List_graph::bfs(int v) {
 
         v = queue.front();
         queue.pop();
-        std::cout<<v<<"->";
+        if(!benchmark)
+            std::cout<<v<<"->";
         for(int i = 0; i < adj[v].size(); i++){
             if(visited[adj[v][i].vertex] == 0) {
                 visited[adj[v][i].vertex]++;
@@ -273,7 +277,6 @@ void List_graph::find_distance(int v, std::vector <int>* distances) {
 
 void List_graph::top_sort() {
 
-    sorted = new int [vertices];
     for(int i = 0; i < vertices; i++){
         sorted[i] = 0;
         visited[i] = 0;
@@ -344,6 +347,7 @@ void List_graph::merge_sort(std::vector <Span_edge>& array) {
         for_merge.emplace_back(array[i]);
     }
     sort(array, for_merge, 0, array.size() - 1);
+    for_merge.clear();
 
 }
 
@@ -409,6 +413,25 @@ List_graph *List_graph::prim_spanning_tree() {
             }
         }
     }
+    edges.clear();
     return min_span_tree;
 }
 
+void List_graph::destroy_graph() {
+
+    delete[] sorted;
+    for(int i = 0; i < vertices; i++) {
+        delete[] costs[i];
+    }
+    delete[] costs;
+    delete[] component;
+    delete[] visited;
+    for(int i = 0; i < vertices; i++) {
+//        for(int j = 0; j < vertices; j++) {
+//            delete adj[i][j];
+//        }
+        adj[i].clear();
+    }
+    delete[] adj;
+
+}

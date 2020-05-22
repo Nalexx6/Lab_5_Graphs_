@@ -1,0 +1,106 @@
+
+-------------------------DATA FOR COMPLETE GRAPH-------------------
+-----------------Data for 25 vertices---------
+
+List
+DFS: 0 ms
+BFS: 0 ms
+Find cycles: 0 ms
+Find lowest-cost distances: 0 ms
+Building span tree: 0 ms
+Building minimum span tree: 1 ms
+
+Matrix
+DFS: 0 ms
+BFS: 0 ms
+Find cycles: 0 ms
+Find lowest-cost distances: 0 ms
+Building span tree: 0 ms
+Building minimum span tree: 0 ms
+-----------------Data for 250 vertices---------
+
+List
+DFS: 1 ms
+BFS: 1 ms
+Find cycles: 2 ms
+Find lowest-cost distances: 3 ms
+Building span tree: 2 ms
+Building minimum span tree: 69 ms
+
+Matrix
+DFS: 0 ms
+BFS: 1 ms
+Find cycles: 0 ms
+Find lowest-cost distances: 2 ms
+Building span tree: 1 ms
+Building minimum span tree: 38 ms
+-----------------Data for 2500 vertices---------
+
+List
+DFS: 62 ms
+BFS: 48 ms
+Find cycles: 80 ms
+Find lowest-cost distances: 235 ms
+Building span tree: 72 ms
+Building minimum span tree: 5638 ms
+
+Matrix
+DFS: 60 ms
+BFS: 20 ms
+Find cycles: 51 ms
+Find lowest-cost distances: 545 ms
+Building span tree: 96 ms
+Building minimum span tree: 7908 ms
+
+-------------------------DATA FOR SPARSE GRAPH-------------------
+-----------------Data for 50 vertices---------
+
+List
+DFS: 0 ms
+BFS: 0 ms
+Find cycles: 0 ms
+Find lowest-cost distances: 0 ms
+Building span tree: 0 ms
+Building minimum span tree: 1 ms
+
+Matrix
+DFS: 0 ms
+BFS: 0 ms
+Find cycles: 0 ms
+Find lowest-cost distances: 0 ms
+Building span tree: 0 ms
+Building minimum span tree: 1 ms
+-----------------Data for 500 vertices---------
+
+List
+DFS: 0 ms
+BFS: 0 ms
+Find cycles: 0 ms
+Find lowest-cost distances: 3 ms
+Building span tree: 1 ms
+Building minimum span tree: 13 ms
+
+Matrix
+DFS: 0 ms
+BFS: 1 ms
+Find cycles: 1 ms
+Find lowest-cost distances: 5 ms
+Building span tree: 3 ms
+Building minimum span tree: 16 ms
+-----------------Data for 5000 vertices---------
+
+List
+DFS: 2 ms
+BFS: 2 ms
+Find cycles: 2 ms
+Find lowest-cost distances: 547 ms
+Building span tree: 184 ms
+Building minimum span tree: 1089 ms
+
+Matrix
+DFS: 82 ms
+BFS: 87 ms
+Find cycles: 81 ms
+Find lowest-cost distances: 638 ms
+Building span tree: 323 ms
+Building minimum span tree: 1284 ms

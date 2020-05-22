@@ -34,6 +34,8 @@ public:
 
 
     List_graph(int& vertices, bool oriented);
+    ~List_graph();
+
 
     //Graph structure
     bool edge_exists(int v, int w);
@@ -49,8 +51,8 @@ public:
     void find_cycle(int v, int prev, int prev_prev, int& cycles);
 
     //Breadth first search
-    void bfs();
-    void bfs(int v);
+    void bfs(bool benchmark);
+    void bfs(int v, bool benchmark);
 
     //Finding lowest-cost path(Dijkstra)
     int exist_unvisited();
@@ -90,6 +92,11 @@ public:
     void merge_sort(std::vector <Span_edge>& array);
     void merge(std::vector <Span_edge>& array, std::vector <Span_edge>& for_merge, int lo, int mid, int hi);
     void sort(std::vector <Span_edge>& array, std::vector <Span_edge>& for_merge, int lo, int hi);
+
+    //
+
+    //Delete graph from memory
+    void destroy_graph();
 
 
 };

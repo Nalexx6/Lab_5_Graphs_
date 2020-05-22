@@ -38,19 +38,23 @@ Matrix_graph::Matrix_graph(int &vertices, bool oriented) {
     for(int i = 0; i < vertices; i++){
         component[i] = 0;
     }
-};
+
+    sorted = new int [vertices];
+
+}
+
+Matrix_graph::~Matrix_graph() = default;
 
 bool Matrix_graph::edge_exists(int v, int w) {
 
-    if(adj[v][w]) {
-//        std::cout << "Edge " << v << " -> " << w << " already exists\n";
-        return true;
-    }
-    return false;
+    return adj[v][w] != nullptr;
 }
 
 void Matrix_graph::add_edge(unsigned int v, unsigned int w, int* weight) {
 
+    if(edge_exists(v, w)){
+        return;
+    }
     if (oriented) {
             adj[v][w] = weight;
     } else {
@@ -120,20 +124,21 @@ void Matrix_graph::dfs_(int v, bool& connectivity) {
 
 }
 
-void Matrix_graph::bfs() {
+void Matrix_graph::bfs(bool benchmark) {
 
     for(int i = 0; i < vertices; i++){
         visited[i] = 0;
     }
     for(int i = 0; i < vertices; i++){
         if(visited[i] == 0){
-            bfs(i);
-            std::cout<<"\n";
+            bfs(i, benchmark);
+            if(!benchmark)
+                std::cout<<"\n";
         }
     }
 }
 
-void Matrix_graph::bfs(int v) {
+void Matrix_graph::bfs(int v, bool benchmark) {
 
     std::queue <int> queue;
     visited[v]++;
@@ -142,7 +147,8 @@ void Matrix_graph::bfs(int v) {
 
         v = queue.front();
         queue.pop();
-        std::cout<<v<<"->";
+        if(!benchmark)
+            std::cout<<v<<"->";
         for(int i = 0; i < vertices; i++){
             if(visited[i] == 0 && adj[v][i] != nullptr) {
                 visited[i]++;
@@ -276,7 +282,6 @@ void Matrix_graph::find_distance(int v, std::vector<int> *distances) {
 
 void Matrix_graph::top_sort() {
 
-    sorted = new int [vertices];
     for(int i = 0; i < vertices; i++){
         sorted[i] = 0;
         visited[i] = 0;
@@ -352,6 +357,7 @@ void Matrix_graph::merge_sort(std::vector <Span_edge>& array) {
         for_merge.emplace_back(array[i]);
     }
     sort(array, for_merge, 0, array.size() - 1);
+    for_merge.clear();
 
 }
 
@@ -420,5 +426,25 @@ Matrix_graph *Matrix_graph::prim_spanning_tree() {
             }
         }
     }
+    edges.clear();
     return min_span_tree;
+}
+
+void Matrix_graph::destroy_graph() {
+
+    delete[] sorted;
+    for(int i = 0; i < vertices; i++) {
+        delete[] costs[i];
+    }
+    delete[] costs;
+    delete[] component;
+    delete[] visited;
+    for(int i = 0; i < vertices; i++) {
+//        for(int j = 0; j < vertices; j++) {
+//            delete adj[i][j];
+//        }
+        delete[] adj[i];
+    }
+    delete[] adj;
+
 }

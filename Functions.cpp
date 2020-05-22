@@ -42,6 +42,38 @@ List_graph* Functions::list_random_graph(int vertices, int edges, bool oriented)
     return graph;
 }
 
+List_graph *Functions::matrix_to_lst(Matrix_graph *graph) {
+
+    List_graph* listGraph = new List_graph(graph->vertices, graph->oriented);
+
+    for(int i = 0; i < graph->vertices; i++){
+        for(int j = 0; j < graph->vertices; j++){
+            if(graph->edge_exists(i,j)){
+                listGraph->add_edge(i, j, *graph->adj[i][j]);
+            }
+        }
+    }
+//    listGraph->output_graph();
+    return listGraph;
+}
+
+Matrix_graph *Functions::list_to_matrix(List_graph *graph) {
+
+    Matrix_graph* matrixGraph = new Matrix_graph(graph->vertices, graph->oriented);
+
+    int* weight;
+    for(int i = 0; i < graph->vertices; i++){
+        for(int j = 0; j < graph->adj[i].size(); j++){
+
+            weight = new int(graph->adj[i][j].weight);
+            matrixGraph->add_edge(i, graph->adj[i][j].vertex, weight);
+
+        }
+    }
+//    matrixGraph->output_graph();
+    return matrixGraph;
+}
+
 void Functions::matrix_interactive() {
 
     Matrix_graph* graph = matrix_random_graph(1, 0, false);
@@ -99,7 +131,7 @@ void Functions::matrix_interactive() {
         }
         if(key == 5){
             std::cout<<"This is order in which BFS go through all vertices\n";
-            graph->bfs();
+            graph->bfs(false);
         }
         if(key == 6){
             std::cout<<"Your graph has "<<graph->dfs(true)<<" connectivity components\n";
@@ -208,6 +240,8 @@ void Functions::matrix_interactive() {
         std::cin>>response;
 
     }
+    graph->destroy_graph();
+    delete graph;
 
 }
 
@@ -267,7 +301,7 @@ void Functions::list_interactive() {
         }
         if(key == 5){
             std::cout<<"This is order in which BFS go through all vertices\n";
-            graph->bfs();
+            graph->bfs(false);
         }
         if(key == 6){
             std::cout<<"Your graph has "<<graph->dfs(true)<<" connectivity components\n";
@@ -374,8 +408,10 @@ void Functions::list_interactive() {
         }
         std::cout<<"If you want to do anything else with graph press 'y', press 'n', if you don`t\n";
         std::cin>>response;
-
     }
+    graph->destroy_graph();
+    delete graph;
+
 }
 
 void Functions::matrix_demo() {
@@ -425,7 +461,7 @@ void Functions::matrix_demo() {
                "cin anything to continue\n";
     std::cin>>breakpoint;
 
-    graph->bfs();
+    graph->bfs(false);
     std::cout<<"This is order in which BFS go through all vertices\n"
                "cin anything to continue\n";
     std::cin>>breakpoint;
@@ -500,7 +536,8 @@ void Functions::matrix_demo() {
 
     std::cout<<"This is the end of demo mode\n";
 
-
+    graph->destroy_graph();
+    delete graph;
 
 
 
@@ -549,7 +586,7 @@ void Functions::list_demo() {
                "cin anything to continue\n";
     std::cin>>breakpoint;
 
-    graph->bfs();
+    graph->bfs(false);
     std::cout<<"This is order in which BFS go through all vertices\n"
                "cin anything to continue\n";
     std::cin>>breakpoint;
@@ -623,5 +660,96 @@ void Functions::list_demo() {
     std::cin>>breakpoint;
 
     std::cout<<"This is the end of demo mode\n";
+
+    graph->destroy_graph();
+    delete graph;
+}
+
+void Functions::matrix_benchmark(Matrix_graph *graph, std::ofstream &f) {
+
+    clock_t start, end;
+    std::vector <int>* distances;
+    Matrix_graph* span_tree;
+
+    start = clock();
+    graph->dfs(true);
+    end = clock();
+    f <<"DFS: "<<end-start<<" ms\n";
+
+    start = clock();
+    graph->bfs(true);
+    end = clock();
+    f <<"BFS: "<<end-start<<" ms\n";
+
+    start = clock();
+    graph->acyclicity();
+    end = clock();
+    f <<"Find cycles: "<<end-start<<" ms\n";
+
+    start = clock();
+    distances = graph->dijkstra_distance(0);
+    end = clock();
+    f <<"Find lowest-cost distances: "<<end-start<<" ms\n";
+    for(int i = 0; i < graph->vertices; i++){
+        distances[i].clear();
+    }
+    delete[] distances;
+
+    start = clock();
+    span_tree = graph->span_tree();
+    end = clock();
+    f <<"Building span tree: "<<end-start<<" ms\n";
+    span_tree->destroy_graph();
+
+    start = clock();
+    span_tree = graph->prim_spanning_tree();
+    end = clock();
+    f <<"Building minimum span tree: "<<end-start<<" ms\n";
+    span_tree->destroy_graph();
+
+
+}
+
+void Functions::list_benchmark(List_graph *graph, std::ofstream &f) {
+
+    clock_t start, end;
+    std::vector <int>* distances;
+    List_graph* span_tree;
+
+    start = clock();
+    graph->dfs(true);
+    end = clock();
+    f <<"DFS: "<<end-start<<" ms\n";
+
+    start = clock();
+    graph->bfs(true);
+    end = clock();
+    f <<"BFS: "<<end-start<<" ms\n";
+
+    start = clock();
+    graph->acyclicity();
+    end = clock();
+    f <<"Find cycles: "<<end-start<<" ms\n";
+
+    start = clock();
+    distances = graph->dijkstra_distance(0);
+    end = clock();
+    f <<"Find lowest-cost distances: "<<end-start<<" ms\n";
+    for(int i = 0; i < graph->vertices; i++){
+        distances[i].clear();
+    }
+    delete[] distances;
+
+    start = clock();
+    span_tree = graph->span_tree();
+    end = clock();
+    f <<"Building span tree: "<<end-start<<" ms\n";
+    span_tree->destroy_graph();
+
+    start = clock();
+    span_tree = graph->prim_spanning_tree();
+    end = clock();
+    f <<"Building minimum span tree: "<<end-start<<" ms\n";
+    span_tree->destroy_graph();
 
 }
