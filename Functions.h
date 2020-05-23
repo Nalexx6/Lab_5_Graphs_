@@ -17,9 +17,11 @@ class Functions {
 
 public:
 
-    //Auxiliary
+    //Creating random graph with adjusted amount of vertices and edges
     static Matrix_graph* matrix_random_graph(int vertices, int edges, bool oriented);
     static List_graph* list_random_graph(int vertices, int edges, bool oriented);
+
+    //Transition of graph from matrix to list and vice versa
     static List_graph* matrix_to_lst(Matrix_graph* graph);
     static Matrix_graph* list_to_matrix(List_graph* graph);
 

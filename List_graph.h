@@ -93,8 +93,6 @@ public:
     void merge(std::vector <Span_edge>& array, std::vector <Span_edge>& for_merge, int lo, int mid, int hi);
     void sort(std::vector <Span_edge>& array, std::vector <Span_edge>& for_merge, int lo, int hi);
 
-    //
-
     //Delete graph from memory
     void destroy_graph();
 

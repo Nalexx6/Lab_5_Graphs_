@@ -59,7 +59,7 @@ void Mode::benchmark() {
     std::cin>>breakpoint;
     f << "-------------------------DATA FOR COMPLETE GRAPH-------------------\n";
 
-    for(int N = 25; N <= 2500; N *= 10){
+    for(int N = 32; N <= 2048; N *= 4){
 
         f << "-----------------Data for "<< N <<" vertices---------\n";
 
@@ -83,18 +83,18 @@ void Mode::benchmark() {
 
     f << "\n-------------------------DATA FOR SPARSE GRAPH-------------------\n";
 
-    std::cout<<"\nNow we will execute benchmark for sparse graph\n"
+    std::cout<<"\nNow we will execute benchmark for sparse (E = 10 * V) graph\n"
                "cin anything to continue\n";
     std::cin>>breakpoint;
 
-    for(int N = 50; N <= 5000; N *= 10){
+    for(int N = 64; N <= 4096; N *= 4){
 
         f << "-----------------Data for "<< N <<" vertices---------\n";
 
         std::cout<<"\nCreating graphs for "<< N<<" vertices...\n";
-        matrixGraph = Functions::matrix_random_graph(N, 10 * N , false);
+        listGraph = Functions::list_random_graph(N, 10 * N , false);
 
-        listGraph = Functions::matrix_to_lst(matrixGraph);
+        matrixGraph = Functions::list_to_matrix(listGraph);
 
         std::cout<<"Processing List_graph algorithms...\n";
         f<<"\nList\n";
